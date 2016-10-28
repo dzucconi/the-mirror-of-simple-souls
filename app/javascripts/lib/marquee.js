@@ -1,7 +1,7 @@
 export default class Marquee {
   constructor(text, speed) {
     this.text = text;
-    this.speed = speed || 1;
+    this.speed = parseFloat(speed || 1);
     this.pool = [];
   }
 
@@ -19,7 +19,7 @@ export default class Marquee {
   segment() {
     const el = document.createElement('DIV');
     el.className = 'crawler';
-    el.innerText = this.text + '\xa0';
+    el.innerText = this.text + '\xa0\xa0';
     this.el.appendChild(el);
     return el;
   }
