@@ -9,7 +9,7 @@ export default class Marquee {
     this.el = document.createElement('DIV');
     this.el.className = 'marquee';
 
-    this.el.style.fontSize = `${size / 3}px`;
+    this.el.style.fontSize = `${size / 2}px`;
     this.el.style.height = `${size}px`;
     this.el.style.lineHeight = `${size}px`;
 
@@ -53,8 +53,15 @@ export default class Marquee {
   }
 
   run() {
+    if (this.destroyed) return;
     this.queue()
       .then(() => this.run());
+  }
+
+  destroy(parent) {
+    if (this.destroyed) return;
+    parent.removeChild(this.el);
+    this.destroyed = true;
   }
 }
 
