@@ -35,6 +35,6 @@
   "dependencies": {
     "debounce": "^1.0.0",
     "qs": "^6.3.0",
-    "queryparams": "0.0.5"
+    "queryparams": "0.0.6"
   }
 }
