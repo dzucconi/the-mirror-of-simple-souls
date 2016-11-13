@@ -5,6 +5,7 @@ import Marquee from './lib/marquee';
 import height from './lib/height';
 import * as misspell from './lib/misspell';
 import fuzz from './lib/fuzz';
+import times from './lib/times';
 
 const DOM = {
   app: document.getElementById('app'),
@@ -13,10 +14,12 @@ const DOM = {
 window.parameters = parameters;
 
 export default () => {
-  const { misspelt, ratio, speed } = parameters({
-    ratio: 1,
+  const { ratio, misspelt, speed, n, style } = parameters({
+    ratio: 7,
     misspelt: true,
-    speed: 5.0
+    speed: 5.0,
+    n: 1,
+    style: '',
   });
 
   axios
@@ -24,34 +27,19 @@ export default () => {
     .then(({ data }) => {
       const book = data.split('\n');
 
-      const text = [
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-        [book.slice(0), fuzz(speed)],
-      ];
+      const text = times(n)(() => [book.slice(0), fuzz(speed)]);
 
       let marquees = [];
 
       const init = () => {
         marquees = text.map(([message, speed]) =>
-          new Marquee(message, speed, misspelt ? misspell.all : undefined));
+          new Marquee({
+            speed,
+            style,
+            messages: message,
+            intercept: misspelt ? misspell.all : undefined,
+          })
+        );
 
         marquees
           .map(m => {
@@ -67,8 +55,6 @@ export default () => {
 
       window.addEventListener('resize', reinit);
 
-
       init();
-
     });
 };

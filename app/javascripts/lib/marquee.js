@@ -1,15 +1,17 @@
 export default class Marquee {
-  constructor(messages, speed, intercept) {
+  constructor({ messages, speed, intercept, style }) {
     this.messages = messages;
     this.speed = parseFloat(speed || 1);
     this.pool = [];
     this.intercept = intercept || (x => x);
+    this.style = style;
   }
 
   render(size, ratio = 2) {
     this.el = document.createElement('DIV');
     this.el.className = 'marquee';
 
+    this.el.style = this.style;
     this.el.style.fontSize = `${size / ratio}px`;
     this.el.style.height = `${size}px`;
     this.el.style.lineHeight = `${size}px`;
