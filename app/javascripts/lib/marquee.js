@@ -1,8 +1,9 @@
 export default class Marquee {
-  constructor(text, speed) {
-    this.text = text;
+  constructor(messages, speed, intercept) {
+    this.messages = messages;
     this.speed = parseFloat(speed || 1);
     this.pool = [];
+    this.intercept = intercept || (x => x);
   }
 
   render(size, ratio = 2) {
@@ -16,17 +17,19 @@ export default class Marquee {
     return this.el;
   }
 
-  segment() {
+  segment(message) {
     const el = document.createElement('DIV');
     el.className = 'crawler';
-    el.innerText = this.text + '\xa0\xa0';
+    el.innerText = message + '\xa0\xa0';
     this.el.appendChild(el);
     return el;
   }
 
   queue() {
     return new Promise(resolve => {
-      const el = this.pool.pop() || this.segment();
+      const queued = this.intercept(this.messages.shift());
+      const el = this.segment(queued);
+      this.messages.push(queued);
 
       const bounds = -(el.offsetWidth);
       const limit = -(el.offsetWidth + this.el.offsetWidth);
@@ -41,9 +44,6 @@ export default class Marquee {
 
         // Animate
         if (left > limit) window.requestAnimationFrame(tick);
-
-        // Pool
-        if (left <= limit) this.pool.push(el);
       };
 
       tick();

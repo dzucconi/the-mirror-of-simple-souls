@@ -15,8 +15,8 @@ body {
 }
 
 body {
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   -webkit-font-smoothing: antialiased;
   font-family: sans-serif;
 }
@@ -40,6 +40,7 @@ body,
   width: 100%;
   vertical-align: middle;
   letter-spacing: 0.0125em;
+  text-transform: uppercase;
 }
 
 .crawler {
