@@ -23,7 +23,7 @@ export default () => {
   });
 
   axios
-    .get('/books/The%20Mirror%20of%20Simple%20Souls%20-%20Margeurite%20Porete.txt')
+    .get('books/The%20Mirror%20of%20Simple%20Souls%20-%20Margeurite%20Porete.txt')
     .then(({ data }) => {
       const book = data.split('\n');
 
