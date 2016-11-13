@@ -14,12 +14,12 @@ const DOM = {
 window.parameters = parameters;
 
 export default () => {
-  const { ratio, misspelt, speed, n, style } = parameters({
+  const { ratio, misspelt, speed, n, transform } = parameters({
     ratio: 7,
     misspelt: true,
     speed: 5.0,
     n: 1,
-    style: '',
+    transform: '',
   });
 
   axios
@@ -35,7 +35,7 @@ export default () => {
         marquees = text.map(([message, speed]) =>
           new Marquee({
             speed,
-            style,
+            transform,
             messages: message,
             intercept: misspelt ? misspell.all : undefined,
           })
