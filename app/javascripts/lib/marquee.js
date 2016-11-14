@@ -1,10 +1,13 @@
 export default class Marquee {
-  constructor({ messages, speed, intercept, transform }) {
+  constructor({ messages, speed, intercept, transform, cursor }) {
     this.messages = messages;
     this.speed = parseFloat(speed || 1);
     this.pool = [];
     this.intercept = intercept || (x => x);
     this.transform = transform;
+    this.cursor = cursor;
+
+    if (this.cursor > 0) this.forward(this.cursor);
   }
 
   render(size, ratio = 2) {
@@ -17,6 +20,14 @@ export default class Marquee {
     this.el.style.lineHeight = `${size}px`;
 
     return this.el;
+  }
+
+  forward(cursor) {
+    return this.messages = this.messages.slice(cursor).concat(this.messages.slice(0, cursor));
+  }
+
+  peek() {
+    return this.messages[0];
   }
 
   segment(message) {
